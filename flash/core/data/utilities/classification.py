@@ -145,7 +145,10 @@ class SingleLabelTargetFormatter(TargetFormatter):
         self.label_to_idx = {label: idx for idx, label in enumerate(self.labels)}
 
     def format(self, target: Any) -> Any:
-        return self.label_to_idx[_strip(target[0] if _is_list_like(target) and not isinstance(target, str) else target)]
+        if target[0].isnumeric():
+            return target[0]
+        else:
+            return self.label_to_idx[_strip(target[0] if _is_list_like(target) and not isinstance(target, str) else target)]
 
 
 @dataclass
